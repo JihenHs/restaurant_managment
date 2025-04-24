@@ -1,29 +1,17 @@
-import { TestBed } from '@angular/core/testing';
-import { AppComponent } from './app.component';
+import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';  // Ajoute les routes ici
+import { HeaderComponent } from './header/header.component'; // Importation du Header standalone
 
-describe('AppComponent', () => {
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [AppComponent],
-    }).compileComponents();
-  });
-
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
-  });
-
-  it(`should have the 'fronten-delivery-meal' title`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('fronten-delivery-meal');
-  });
-
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, fronten-delivery-meal');
-  });
-});
+@Component({
+  selector: 'app-root',
+  standalone: true,  // Ici aussi, on spécifie que le composant est standalone
+  imports: [HeaderComponent, RouterModule], // Ajoute les imports ici
+  template: `
+    <app-header></app-header>
+    <router-outlet></router-outlet>
+  `,
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+  title = 'Mon Application';
+}

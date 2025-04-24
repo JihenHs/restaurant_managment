@@ -1,0 +1,120 @@
+<div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show" role="alert">
+  {{ successMessage }}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+  {{ errorMessage }}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="container mt-5">
+  <div class="card shadow-sm p-4 rounded-lg">
+    <h3 class="text-center mb-4">Inscription</h3>
+    <form (ngSubmit)="submitForm()" #registerForm="ngForm">
+      
+      <div class="form-group">
+        <label for="username">Nom d'utilisateur:</label>
+        <input
+          type="text"
+          [(ngModel)]="formData.username"
+          name="username"
+          id="username"
+          class="form-control"
+          required
+          minlength="3"
+          #username="ngModel"
+        />
+        <div *ngIf="username.invalid && (username.dirty || username.touched)" class="text-danger small">
+          <small *ngIf="username.errors?.['required']">Le nom d'utilisateur est requis.</small>
+          <small *ngIf="username.errors?.['minlength']">Au moins 3 caractères requis.</small>
+        </div>
+      </div>
+
+     
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input
+          type="email"
+          [(ngModel)]="formData.email"
+          name="email"
+          id="email"
+          class="form-control"
+          required
+          email
+          #email="ngModel"
+        />
+        <div *ngIf="email.invalid && (email.dirty || email.touched)" class="text-danger small">
+          <small *ngIf="email.errors?.['required']">L'email est requis.</small>
+          <small *ngIf="email.errors?.['email']">Email invalide.</small>
+        </div>
+      </div>
+
+    
+      <div class="form-group">
+        <label for="password">Mot de passe:</label>
+        <input
+          type="password"
+          [(ngModel)]="formData.password"
+          name="password"
+          id="password"
+          class="form-control"
+          required
+          minlength="6"
+          #password="ngModel"
+        />
+        <div *ngIf="password.invalid && (password.dirty || password.touched)" class="text-danger small">
+          <small *ngIf="password.errors?.['required']">Le mot de passe est requis.</small>
+          <small *ngIf="password.errors?.['minlength']">Minimum 6 caractères.</small>
+        </div>
+      </div>
+
+    
+      <div class="form-group">
+        <label for="phone">Téléphone:</label>
+        <input
+          type="text"
+          [(ngModel)]="formData.phone"
+          name="phone"
+          id="phone"
+          class="form-control"
+          required
+          pattern="^[0-9]{8}$"
+          #phone="ngModel"
+        />
+        <div *ngIf="phone.invalid && (phone.dirty || phone.touched)" class="text-danger small">
+          <small *ngIf="phone.errors?.['required']">Le téléphone est requis.</small>
+          <small *ngIf="phone.errors?.['pattern']">8 chiffres requis.</small>
+        </div>
+      </div>
+
+     
+      <div class="form-group">
+        <label for="role">Rôle:</label>
+        <select
+          [(ngModel)]="formData.role"
+          name="role"
+          id="role"
+          class="form-control"
+          required
+          #role="ngModel"
+        >
+          <option value="" disabled selected>-- Sélectionnez un rôle --</option>
+          <option value="cuisinier">Cuisinier</option>
+          <option value="admin">Admin</option>
+          <option value="utilisateur">Utilisateur</option>
+        </select>
+        <div *ngIf="role.invalid && (role.dirty || role.touched)" class="text-danger small">
+          <small *ngIf="role.errors?.['required']">Le rôle est requis.</small>
+        </div>
+      </div>
+
+     
+      <button type="submit" class="btn btn-primary btn-block" [disabled]="registerForm.invalid">S'inscrire</button>
+    </form>
+  </div>
+</div>
