@@ -6,6 +6,22 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
+  getToken(): string | null {
+    return localStorage.getItem('token');
+  }
+
+  getRole(): string | null {
+    return localStorage.getItem('role');
+  }
+
+  isAuthenticated(): boolean {
+    return !!this.getToken();
+  }
+
+  hasAccess(): boolean {
+    const role = this.getRole();
+    return role === 'admin' || role === 'cuisinier';
+  }
 
   private apiUrl = 'http://localhost:5000/api/auth/login';  // Ton endpoint d'API
 

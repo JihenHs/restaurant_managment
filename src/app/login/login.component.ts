@@ -1,11 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { AuthService } from '../service/auth.service';  // Import du service AuthService
 import { FormsModule } from '@angular/forms';  // Import FormsModule to use ngModel
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule],  // Add FormsModule here
+  imports: [FormsModule,CommonModule],  // Add FormsModule here
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
