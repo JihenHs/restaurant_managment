@@ -4,7 +4,7 @@ import { CanActivateFn, Router } from '@angular/router';
 export const roleGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
   const token = localStorage.getItem('token');
-  const userRole = localStorage.getItem('role'); // We assume you saved user's role when login.
+  const userRole = localStorage.getItem('role'); 
 
   if (!token) {
     router.navigate(['/login']);
@@ -16,7 +16,7 @@ export const roleGuard: CanActivateFn = (route, state) => {
   if (allowedRoles.includes(userRole!)) {
     return true;
   } else {
-    router.navigate(['/unauthorized']); // Create an unauthorized page
+    router.navigate(['/unauthorized']); 
     return false;
   }
 };
