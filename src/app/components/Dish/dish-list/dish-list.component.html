@@ -1,7 +1,7 @@
 <div class="dish-list">
   <h2 class="title">🍽️ Liste des Plats</h2>
 
-  <!-- Button to Add Dish, only visible for certain roles -->
+
   <div *ngIf="canEditOrDelete()">
     <button [appRoleVisibility]="['admin', 'cuisinier']" (click)="toggleAddDishForm()">
       {{ showAddDishForm ? 'Annuler' : 'Ajouter un plat' }}
@@ -10,12 +10,12 @@
     
   </div>
 
-  <!-- Add Dish Form -->
+  
   <div *ngIf="showAddDishForm" class="add-dish-form">
-    <!-- Form contents -->
+    
   </div>
 
-  <!-- Table of Dishes -->
+
   <div *ngIf="dishes.length > 0; else noDishes">
     <table>
       <thead>
@@ -34,7 +34,7 @@
           <td>{{ dish.price | currency:'EUR' }}</td>
           <td>{{ dish.category | titlecase }}</td>
           <td>
-            <!-- Edit and Delete buttons, only visible for admin or cuisiner -->
+         
             <div *ngIf="canEditOrDelete(); else noActions">
               <button [appRoleVisibility]="['admin', 'cuisinier']" (click)="editDish(dish)">Éditer</button>
               <button [appRoleVisibility]="['admin', 'cuisinier']" (click)="deleteDish(dish._id)">Supprimer</button></div>
