@@ -33,7 +33,7 @@ export class RegisterComponent {
     this.http.post('http://localhost:5000/api/auth/register', this.formData)
       .subscribe({
         next: (response) => {
-          // Redirection immédiate vers la page de login avec un message de succès
+        
           this.router.navigate(['/login'], {
             state: {
               successMessage: 'Inscription réussie ! Vous pouvez maintenant vous connecter.'
