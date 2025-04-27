@@ -6,13 +6,22 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
+
+  
   getToken(): string | null {
     return localStorage.getItem('token');
   }
-
-  getRole(): string | null {
-    return localStorage.getItem('role');
+  getRole(): string {
+    const userData = localStorage.getItem('userData');
+    if (userData) {
+      const parsedData = JSON.parse(userData);
+      console.log('Retrieved Role:', parsedData.role);  // Debugging log
+      return parsedData.role;
+    }
+    console.log('No user data found!');
+    return '';
   }
+  
 
   isAuthenticated(): boolean {
     return !!this.getToken();

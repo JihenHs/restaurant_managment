@@ -1,13 +1,9 @@
-/* Exemple de styles CSS pour le Header */
-.navbar {
-    background-color: #007bff;
-  }
-  
-  .navbar-nav .nav-item .nav-link {
-    color: white !important;
-  }
-  
-  .navbar-nav .nav-item .nav-link:hover {
-    color: #dcdcdc !important;
-  }
-  
+.header {
+  background: linear-gradient(to right, #6a11cb, #2575fc);
+}
+
+a {
+  color:aliceblue;
+  z-index: 10; /* Ensure the link is on top of other elements */
+  position: relative;
+}

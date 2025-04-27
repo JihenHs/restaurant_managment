@@ -1,19 +1,21 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Mon Application</a>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <a class="nav-link" *ngIf="!isLoggedIn" routerLink="/login">Se connecter</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" *ngIf="!isLoggedIn" routerLink="/register">S'inscrire</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" *ngIf="isLoggedIn" (click)="onLogout()">Se déconnecter</a>
-          
+<nav class="header">
+  <ng-container *ngIf="!isUserLoggedIn()">
+    <a routerLink="/login">Login</a> |
+    <a routerLink="/register">Register</a>
+  </ng-container>
 
-        </li>
-      </ul>
-    </div>
-  </nav>
-  
+  <ng-container *ngIf="isUserLoggedIn()">
+    <ng-container [ngSwitch]="userRole">
+      <a *ngSwitchCase="'client'" routerLink="/dashboard-client">Client Dashboard</a> |
+      <a *ngSwitchCase="'admin'" routerLink="/dashboard-admin">Admin Dashboard</a> |
+      <a *ngSwitchCase="'cuisinier'" routerLink="/dashboard-cuisinier">Cuisinier Dashboard</a> |
+      <a *ngSwitchDefault routerLink="/dashboard">Dashboard</a> |
+    </ng-container>
+
+    <!-- Link to the Dishes List visible only for admin and cuisinier -->
+    <a *ngIf="isUserLoggedIn()" routerLink="/dishes-list">Dishes List</a>
+
+    <!-- Logout link -->
+    <a (click)="logout()" style="cursor: pointer;">Logout</a>
+  </ng-container>
+</nav>

@@ -4,39 +4,47 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { isPlatformBrowser } from '@angular/common';
 import { PLATFORM_ID, Inject } from '@angular/core';
+import { HeaderComponent } from './header/header.component';
+
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterModule ], 
-  template: `
-    <div>
-      <h1>Welcome to My App</h1>
-      <nav>
-        <ng-container *ngIf="!isLoggedIn()">
-          <a routerLink="/login">Login</a> |
-          <a routerLink="/register">Register</a>
-        </ng-container>
-        <ng-container *ngIf="isLoggedIn()">
-          <a routerLink="/dashboard">Dashboard</a> |
-        </ng-container>
-      </nav>
-      <router-outlet></router-outlet>
-    </div>
-  `,
+  imports: [CommonModule, RouterModule, HeaderComponent], 
+  template:  `
+  <app-header></app-header> 
+  <router-outlet></router-outlet>
+`,
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  userRole: string | null = null; 
+
   constructor(
     private router: Router,
     @Inject(PLATFORM_ID) private platformId: any
-  ) {}
-
-  
-isLoggedIn(): boolean {
-  if (isPlatformBrowser(this.platformId)) {
-    return localStorage.getItem('token') !== null;
+  ) {
+    this.loadUserRole();
   }
-  return false;
-}
- 
+
+  isLoggedIn(): boolean {
+    if (isPlatformBrowser(this.platformId)) {
+      return localStorage.getItem('token') !== null;
+    }
+    return false;
+  }
+
+  loadUserRole(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      this.userRole = localStorage.getItem('role');
+    }
+  }
+
+  logout() {
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.removeItem('token'); 
+      localStorage.removeItem('role'); 
+      this.userRole = null;             
+      this.router.navigate(['/login']); 
+    }
+  }
 }

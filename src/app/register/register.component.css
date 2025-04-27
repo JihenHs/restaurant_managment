@@ -1,7 +1,11 @@
 /* Fond global */
-body {
-    background-color: #f8f9fa;
-    font-family: 'Arial', sans-serif;
+
+.register{
+  background: linear-gradient(to right, #6a11cb, #2575fc);
+
+  min-height: 100vh;
+
+
   }
   
   /* Carte d'inscription */

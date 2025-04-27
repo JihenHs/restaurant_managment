@@ -1,26 +1,53 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router'; // <-- Import RouterModule here
+import { Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-header',
-  standalone: true,  // Ajoute l'option standalone ici
+  standalone: true,
+  imports: [CommonModule, RouterModule], // <-- Add RouterModule here
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
+  userRole: string | null = null;
   isLoggedIn: boolean = false;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, @Inject(PLATFORM_ID) private platformId: any) {}
 
   ngOnInit(): void {
-    // Vérifie si un utilisateur est connecté (par exemple, en vérifiant un token)
-    this.isLoggedIn = localStorage.getItem('auth_token') !== null;
+    this.loadUserRole();
+  }
+
+  isUserLoggedIn(): boolean {
+    if (isPlatformBrowser(this.platformId)) {
+      this.isLoggedIn = localStorage.getItem('token') !== null;
+      return this.isLoggedIn;
+    }
+    return false;
+  }
+
+  loadUserRole(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      this.userRole = localStorage.getItem('role');
+    }
+  }
+
+  isAdminOrCuisinier(): boolean {
+    this.userRole = localStorage.getItem('role');
+    return this.userRole === 'admin' || this.userRole === 'cuisinier';
   }
 
   logout(): void {
-    // Supprime le token et redirige l'utilisateur
-    localStorage.removeItem('auth_token');
-    this.isLoggedIn = false;
-    this.router.navigate(['/login']);
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('role');
+      this.userRole = null;
+      this.isLoggedIn = false;
+      this.router.navigate(['/login']);
+    }
   }
 }

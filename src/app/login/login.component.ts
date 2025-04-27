@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { AuthService } from '../service/auth.service';  // Import du service AuthService
 import { FormsModule } from '@angular/forms';  // Import FormsModule to use ngModel
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -17,20 +18,26 @@ export class LoginComponent {
   errorMessage: string = '';
 
   private authService = inject(AuthService);
+  constructor(private router: Router) { }
 
   onSubmit() {
     this.authService.login(this.email, this.password).subscribe({
       next: (response) => {
-        // Si la connexion est réussie, on enregistre le token
         localStorage.setItem('token', response.token);
-
-        // Redirection manuelle vers une autre page après la connexion
-        window.location.href = '/dashboard';  // Simule la redirection vers un dashboard ou autre page
+        localStorage.setItem('role', response.role); // <<< Add this line
+  
+        // Now redirect depending on role
+        if (response.role === 'admin') {
+          this.router.navigate(['/dashboard-admin']);
+        } else if (response.role === 'cuisinier') {
+          this.router.navigate(['/dashboard-cuisinier']);
+        } else {
+          this.router.navigate(['/dashboard-client']);
+        }
       },
       error: (error) => {
-        // Si l'authentification échoue, affiche un message d'erreur
         this.errorMessage = error.error.message || 'Erreur inconnue';
       }
     });
   }
-}
+}  
